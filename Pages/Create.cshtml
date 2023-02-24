@@ -1,0 +1,24 @@
+﻿@page
+@model CreateModel
+@{
+    ViewData["Title"] = "Create post";
+}
+
+<div>
+    <p class="text-danger">@Model.ErrorMessage</p>
+    <form method="POST" enctype="multipart/form-data" asp-antiforgery="true">
+        <div class="mb-3">
+            <label asp-for="PostForm.Content" class="form-label">Preview (optional)</label>
+            <input type="file" class="form-control" required asp-for="PostForm.Preview" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="PostForm.Title" class="form-label">Title</label>
+            <input type="text" class="form-control" required asp-for="PostForm.Title" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="PostForm.Content" class="form-label">Content</label>
+            <textarea class="form-control" required asp-for="PostForm.Content"></textarea>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Create" />
+    </form>
+</div>

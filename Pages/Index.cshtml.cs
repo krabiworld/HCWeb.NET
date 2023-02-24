@@ -1,17 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using HCWeb.NET.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HCWeb.NET.Pages;
 
 public class IndexModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
+    private readonly ApplicationContext _context;
 
-    public IndexModel(ILogger<IndexModel> logger)
+    public IndexModel(ApplicationContext context)
     {
-        _logger = logger;
+        _context = context;
     }
+
+    public Post[] Posts = Array.Empty<Post>();
 
     public void OnGet()
     {
+        Posts = _context.Posts.OrderByDescending(p => p.UpdatedAt).Take(20).ToArray();
     }
 }

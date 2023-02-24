@@ -4,7 +4,28 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="grid">
+    @foreach (var post in Model.Posts)
+    {
+        <div class="card mb-2">
+            @if (post.Preview != null)
+            {
+                <img src="/previews/@post.Preview" class="card-img-top" alt="Post preview">
+            }
+            <div class="card-body">
+                <h5 class="card-title">@post.Title</h5>
+                <p class="card-text">
+                    @if (post.Content.Length > 50)
+                    {
+                        @post.Content[..50]
+                    }
+                    else
+                    {
+                        @post.Content
+                    }
+                </p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    }
 </div>

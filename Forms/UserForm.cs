@@ -1,3 +1,3 @@
 ﻿namespace HCWeb.NET.Forms;
 
-public record class UserForm(string Email, string Password);
+public record UserForm(string Email, string Password);
