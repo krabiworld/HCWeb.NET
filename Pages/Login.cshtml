@@ -1,0 +1,21 @@
+﻿@page
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model LoginModel
+@{
+    ViewData["Title"] = "Login page";
+}
+
+<div>
+    <p class="text-danger">@Model.ErrorMessage</p>
+    <form method="POST" asp-antiforgery="true">
+        <div class="mb-3">
+            <label asp-for="UserForm.Email" class="form-label">Email address</label>
+            <input type="email" class="form-control" required asp-for="UserForm.Email" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="UserForm.Password" class="form-label">Password</label>
+            <input type="password" class="form-control" required asp-for="UserForm.Password" />
+        </div>
+        <input type="submit" class="btn btn-primary" value="Log in" />
+    </form>
+</div>
