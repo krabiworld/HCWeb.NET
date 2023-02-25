@@ -9,7 +9,7 @@
     <form method="POST" enctype="multipart/form-data" asp-antiforgery="true">
         <div class="mb-3">
             <label asp-for="PostForm.Content" class="form-label">Preview (optional)</label>
-            <input type="file" class="form-control" required asp-for="PostForm.Preview" />
+            <input type="file" class="form-control" asp-for="PostForm.Preview" />
         </div>
         <div class="mb-3">
             <label asp-for="PostForm.Title" class="form-label">Title</label>

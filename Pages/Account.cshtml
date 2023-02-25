@@ -1,0 +1,33 @@
+﻿@page
+@model AccountModel
+@{
+    ViewData["Title"] = "Account";
+}
+
+<div>
+    <p class="text-danger">@Model.ErrorMessage</p>
+    <form method="POST" asp-antiforgery="true">
+        <label asp-for="NameForm.Name" class="form-label">Name</label>
+        <div class="mb-3 input-group">
+            <input type="text" class="form-control" required asp-for="NameForm.Name" />
+            <input type="submit" class="btn btn-primary" value="Save" asp-page-handler="Name" />
+        </div>
+    </form>
+    
+    <form method="POST" asp-antiforgery="true">
+        <label asp-for="EmailForm.Email" class="form-label">Email</label>
+        <div class="mb-3 input-group">
+            <input type="email" class="form-control" required asp-for="EmailForm.Email" />
+            <input type="submit" class="btn btn-primary" value="Save" asp-page-handler="Email" />
+        </div>
+    </form>
+    
+    <form method="POST" asp-antiforgery="true">
+        <label asp-for="PasswordForm.Password" class="form-label">Password</label>
+        <div class="mb-3 input-group">
+            <input type="password" class="form-control" required asp-for="PasswordForm.Password" placeholder="Password">
+            <input type="password" class="form-control" required asp-for="PasswordForm.RetypePassword" placeholder="Retype password">
+            <input type="submit" class="btn btn-primary" value="Save" asp-page-handler="Password" />
+        </div>
+    </form>
+</div>

@@ -1,13 +1,13 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
 
 <div class="grid">
     @foreach (var post in Model.Posts)
     {
-        <div class="card mb-2">
+        <div class="card">
             @if (post.Preview != null)
             {
                 <img src="/previews/@post.Preview" class="card-img-top" alt="Post preview">

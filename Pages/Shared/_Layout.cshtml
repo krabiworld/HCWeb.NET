@@ -1,10 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using HCWeb.NET.Extensions
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>@ViewData["Title"] - HCWeb.NET</title>
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="~/lib/bootstrap/bootstrap.min.css"/>
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
         <link rel="stylesheet" href="~/HCWeb.NET.styles.css" asp-append-version="true"/>
     </head>
@@ -22,7 +23,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-page="/Index">Home</a>
                         </li>
-                        @if (User.Identity is {IsAuthenticated: true})
+                        @if (User.IsAuthenticated())
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-page="/Create">Create post</a>
@@ -31,26 +32,31 @@
                     </ul>
                     <div class="dropdown">
                         <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @if (User.Identity is {IsAuthenticated: true})
+                            @if (User.IsAuthenticated())
                             {
-                                @User.Identity.Name
+                                @User.Identity?.Name
                             }
                             else
                             {
                                 <span>Menu</span>
                             }
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                @if (User.Identity is {IsAuthenticated: true})
-                                {
+                        <ul class="dropdown-menu dropdown-menu-lg-end">
+                            @if (User.IsAuthenticated())
+                            {
+                                <li>
+                                    <a class="dropdown-item" asp-page="/Account">Account</a>
+                                </li>
+                                <li>
                                     <a class="dropdown-item" asp-page="/Logout">Logout</a>
-                                }
-                                else
-                                {
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
                                     <a class="dropdown-item" asp-page="/Login">Login</a>
-                                }
-                            </li>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -69,9 +75,7 @@
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/bootstrap.bundle.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
     </body>

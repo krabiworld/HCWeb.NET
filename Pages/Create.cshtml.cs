@@ -64,7 +64,7 @@ public class CreateModel : PageModel
             Title = PostForm.Title,
             Content = PostForm.Content,
             Preview = previewFile,
-            UserId = user.Id
+            User = user
         };
 
         _context.Posts.Add(post);
