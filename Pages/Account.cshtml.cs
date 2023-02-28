@@ -29,8 +29,7 @@ public class AccountModel : PageModel
     
     public IActionResult OnGet()
     {
-        var email = User.GetEmail();
-        var user = _context.Users.SingleOrDefault(u => u.Email == email);
+        var user = User.GetUser(_context);
         if (user == null)
         {
             ErrorMessage = "User not found";
@@ -45,8 +44,7 @@ public class AccountModel : PageModel
 
     public IActionResult OnPostName()
     {
-        var email = User.GetEmail();
-        var user = _context.Users.SingleOrDefault(u => u.Email == email);
+        var user = User.GetUser(_context);
         if (user == null)
         {
             ErrorMessage = "User not found";
@@ -61,8 +59,7 @@ public class AccountModel : PageModel
     
     public IActionResult OnPostEmail()
     {
-        var email = User.GetEmail();
-        var user = _context.Users.SingleOrDefault(u => u.Email == email);
+        var user = User.GetUser(_context);
         if (user == null)
         {
             ErrorMessage = "User not found";
@@ -72,11 +69,28 @@ public class AccountModel : PageModel
         user.Email = EmailForm.Email;
         _context.SaveChanges();
         
-        return Redirect("/Logout");
+        return Redirect("/Account");
     }
     
-    public void OnPostPassword()
+    public IActionResult OnPostPassword()
     {
+        if (PasswordForm.Password != PasswordForm.RetypePassword)
+        {
+            ErrorMessage = "Password err";
+        }
+
+        var user = User.GetUser(_context);
+        if (user == null)
+        {
+            ErrorMessage = "User not found";
+            return Page();
+        }
+
+        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(PasswordForm.Password);
+
+        user.Password = hashedPassword;
+        _context.SaveChanges();
         
+        return Redirect("/Account");
     }
 }

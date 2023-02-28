@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using HCWeb.NET.Models;
 
 namespace HCWeb.NET.Extensions;
 
@@ -14,12 +15,29 @@ public static class ClaimsPrincipalExtension
     }
     
     /// <summary>
-    /// Return authenticated user email or empty string if user not authenticated.
+    /// Return authenticated user id or -1 if user not authenticated.
     /// </summary>
-    /// <returns>string</returns>
-    public static string GetEmail(this ClaimsPrincipal claimsPrincipal)
+    /// <returns>int</returns>
+    public static int GetId(this ClaimsPrincipal claimsPrincipal)
     {
-        var email = claimsPrincipal.Identity?.Name;
-        return email ?? "";
+        var id = claimsPrincipal.Identity?.Name;
+        return id == null ? -1 : Convert.ToInt32(id);
+    }
+
+    /// <summary>
+    /// Returns user object or null if user not authenticated or user not found in database.
+    /// </summary>
+    /// <param name="claimsPrincipal">The extension</param>
+    /// <param name="context">ApplicationContext</param>
+    /// <returns>Nullable user</returns>
+    public static User? GetUser(this ClaimsPrincipal claimsPrincipal, ApplicationContext context)
+    {
+        if (!claimsPrincipal.IsAuthenticated()) return null;
+
+        var id = claimsPrincipal.GetId();
+        if (id == -1) return null;
+
+        var user = context.Users.Find(id);
+        return user;
     }
 }

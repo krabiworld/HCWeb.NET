@@ -1,4 +1,5 @@
-﻿using HCWeb.NET.Forms;
+﻿using HCWeb.NET.Extensions;
+using HCWeb.NET.Forms;
 using HCWeb.NET.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,14 +37,7 @@ public class CreateModel : PageModel
             return Page();
         }
 
-        var userEmail = User.Identity?.Name;
-        if (userEmail == null)
-        {
-            ErrorMessage = "You are not authenticated.";
-            return Page();
-        }
-
-        var user = _context.Users.SingleOrDefault(u => u.Email == userEmail);
+        var user = User.GetUser(_context);
         if (user == null)
         {
             ErrorMessage = "User not found.";

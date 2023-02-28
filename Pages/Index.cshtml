@@ -10,7 +10,7 @@
         <div class="card">
             @if (post.Preview != null)
             {
-                <img src="/previews/@post.Preview" class="card-img-top" alt="Post preview">
+                <img height="100px" src="/previews/@post.Preview" class="card-img-top" alt="Post preview">
             }
             <div class="card-body">
                 <h5 class="card-title">@post.Title</h5>
@@ -24,7 +24,7 @@
                         @post.Content
                     }
                 </p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <a href="/Post/@post.Id" class="btn btn-primary">Go somewhere</a>
             </div>
         </div>
     }

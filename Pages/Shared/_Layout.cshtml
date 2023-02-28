@@ -32,14 +32,7 @@
                     </ul>
                     <div class="dropdown">
                         <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @if (User.IsAuthenticated())
-                            {
-                                @User.Identity?.Name
-                            }
-                            else
-                            {
-                                <span>Menu</span>
-                            }
+                            <span>Menu</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-lg-end">
                             @if (User.IsAuthenticated())

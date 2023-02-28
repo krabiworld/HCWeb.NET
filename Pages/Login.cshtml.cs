@@ -33,18 +33,22 @@ public class LoginModel : PageModel
             return Page();
         }
 
-        var user = _context.Users
-            .FirstOrDefault(u => u.Email == UserForm.Email && u.Password == UserForm.Password);
-
+        var user = _context.Users.FirstOrDefault(u => u.Email == UserForm.Email);
         if (user == null)
         {
-            ErrorMessage = "User not found.";
+            ErrorMessage = "Email or password incorrect.";
+            return Page();
+        }
+
+        if (!BCrypt.Net.BCrypt.Verify(UserForm.Password, user.Password))
+        {
+            ErrorMessage = "Email or password incorrect.";
             return Page();
         }
 
         var claims = new List<Claim>
         {
-            new(ClaimsIdentity.DefaultNameClaimType, user.Email),
+            new(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString()),
             new(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
         };
 
