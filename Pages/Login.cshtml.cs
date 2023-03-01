@@ -48,8 +48,10 @@ public class LoginModel : PageModel
 
         var claims = new List<Claim>
         {
-            new(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString()),
-            new(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
+            new("Id", user.Id.ToString()),
+            new(ClaimTypes.Name, user.Name),
+            new(ClaimTypes.Email, user.Email),
+            new(ClaimTypes.Role, user.Role.Name)
         };
 
         var claimsIdentify = new ClaimsIdentity(claims, "Cookies");

@@ -1,5 +1,8 @@
-﻿using HCWeb.NET.Extensions;
+﻿using System.Security.Claims;
+using HCWeb.NET.Extensions;
 using HCWeb.NET.Forms;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -29,37 +32,49 @@ public class AccountModel : PageModel
     
     public IActionResult OnGet()
     {
-        var user = User.GetUser(_context);
-        if (user == null)
+        var name = User.FindFirst(ClaimTypes.Name);
+        var email = User.FindFirst(ClaimTypes.Email);
+        if (name == null || email == null)
         {
             ErrorMessage = "User not found";
             return Page();
         }
-
-        NameForm = new AccountNameForm(user.Name);
-        EmailForm = new AccountEmailForm(user.Email);
+        
+        NameForm = new AccountNameForm(name.Value);
+        EmailForm = new AccountEmailForm(email.Value);
         
         return Page();
     }
 
-    public IActionResult OnPostName()
+    public async Task<IActionResult> OnPostName()
     {
-        var user = User.GetUser(_context);
+        var user = await User.GetUser(_context);
         if (user == null)
         {
-            ErrorMessage = "User not found";
+            ErrorMessage = "User not found.";
             return Page();
         }
 
         user.Name = NameForm.Name;
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
+
+        if (User.Identity is not ClaimsIdentity identity)
+        {
+            ErrorMessage = "User not found.";
+            return Page();
+        }
+        identity.RemoveClaim(User.FindFirst(ClaimTypes.Name));
+        identity.AddClaim(new Claim(ClaimTypes.Name, NameForm.Name));
+
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await HttpContext.SignInAsync(new ClaimsPrincipal(identity));
         
         return Redirect("/Account");
     }
     
-    public IActionResult OnPostEmail()
+    public async Task<IActionResult> OnPostEmail()
     {
-        var user = User.GetUser(_context);
+        var user = await User.GetUser(_context);
         if (user == null)
         {
             ErrorMessage = "User not found";
@@ -67,19 +82,19 @@ public class AccountModel : PageModel
         }
 
         user.Email = EmailForm.Email;
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         
         return Redirect("/Account");
     }
     
-    public IActionResult OnPostPassword()
+    public async Task<IActionResult> OnPostPassword()
     {
         if (PasswordForm.Password != PasswordForm.RetypePassword)
         {
             ErrorMessage = "Password err";
         }
 
-        var user = User.GetUser(_context);
+        var user = await User.GetUser(_context);
         if (user == null)
         {
             ErrorMessage = "User not found";
@@ -89,7 +104,7 @@ public class AccountModel : PageModel
         var hashedPassword = BCrypt.Net.BCrypt.HashPassword(PasswordForm.Password);
 
         user.Password = hashedPassword;
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         
         return Redirect("/Account");
     }

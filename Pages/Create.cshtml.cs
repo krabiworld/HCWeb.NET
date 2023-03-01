@@ -37,7 +37,7 @@ public class CreateModel : PageModel
             return Page();
         }
 
-        var user = User.GetUser(_context);
+        var user = await User.GetUser(_context);
         if (user == null)
         {
             ErrorMessage = "User not found.";

@@ -18,10 +18,10 @@ public static class ClaimsPrincipalExtension
     /// Return authenticated user id or -1 if user not authenticated.
     /// </summary>
     /// <returns>int</returns>
-    public static int GetId(this ClaimsPrincipal claimsPrincipal)
+    private static int GetId(this ClaimsPrincipal claimsPrincipal)
     {
-        var id = claimsPrincipal.Identity?.Name;
-        return id == null ? -1 : Convert.ToInt32(id);
+        var claim = claimsPrincipal.FindFirst("Id");
+        return claim == null ? -1 : Convert.ToInt32(claim.Value);
     }
 
     /// <summary>
@@ -30,14 +30,14 @@ public static class ClaimsPrincipalExtension
     /// <param name="claimsPrincipal">The extension</param>
     /// <param name="context">ApplicationContext</param>
     /// <returns>Nullable user</returns>
-    public static User? GetUser(this ClaimsPrincipal claimsPrincipal, ApplicationContext context)
+    public static async Task<User?> GetUser(this ClaimsPrincipal claimsPrincipal, ApplicationContext context)
     {
         if (!claimsPrincipal.IsAuthenticated()) return null;
 
         var id = claimsPrincipal.GetId();
         if (id == -1) return null;
 
-        var user = context.Users.Find(id);
+        var user = await context.Users.FindAsync(id);
         return user;
     }
 }
