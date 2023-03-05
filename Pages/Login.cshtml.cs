@@ -28,7 +28,7 @@ public class LoginModel : PageModel
 
         var user = await _userManager.FindByEmailAsync(ViewModel.Email);
 
-        if (user == null || user.Email == null)
+        if (user == null || user.UserName == null)
         {
             ModelState.AddModelError(string.Empty, "User not found.");
             return Page();
