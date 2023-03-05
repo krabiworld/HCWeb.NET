@@ -1,6 +1,6 @@
-﻿using System.Security.Claims;
-using HCWeb.NET.Forms;
-using Microsoft.AspNetCore.Authentication;
+﻿using HCWeb.NET.Forms;
+using HCWeb.NET.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,56 +8,40 @@ namespace HCWeb.NET.Pages;
 
 public class LoginModel : PageModel
 {
-    private ApplicationContext _context;
+    private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
 
-    public LoginModel(ApplicationContext context)
+    public LoginModel(UserManager<User> userManager, SignInManager<User> signInManager)
     {
-        _context = context;
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
     
     [BindProperty]
-    public UserForm UserForm { get; set; } = new("", "");
-
-    public string ErrorMessage { get; set; } = "";
+    public LoginViewModel ViewModel { get; set; } = new LoginViewModel();
     
-    public void OnGet()
-    {
-        
-    }
+    public void OnGet() { }
 
     public async Task<IActionResult> OnPost()
     {
-        if (string.IsNullOrEmpty(UserForm.Email) || string.IsNullOrEmpty(UserForm.Password))
+        if (!ModelState.IsValid) return Page();
+
+        var user = await _userManager.FindByEmailAsync(ViewModel.Email);
+
+        if (user == null || user.Email == null)
         {
-            ErrorMessage = "Email or password is empty.";
+            ModelState.AddModelError(string.Empty, "User not found.");
             return Page();
         }
 
-        var user = _context.Users.FirstOrDefault(u => u.Email == UserForm.Email);
-        if (user == null)
+        var result = await _signInManager.PasswordSignInAsync(user.UserName, ViewModel.Password, true, false);
+
+        if (!result.Succeeded)
         {
-            ErrorMessage = "Email or password incorrect.";
+            ModelState.AddModelError("ViewModel.Email", "Email or password incorrect.");
             return Page();
         }
 
-        if (!BCrypt.Net.BCrypt.Verify(UserForm.Password, user.Password))
-        {
-            ErrorMessage = "Email or password incorrect.";
-            return Page();
-        }
-
-        var claims = new List<Claim>
-        {
-            new("Id", user.Id.ToString()),
-            new(ClaimTypes.Name, user.Name),
-            new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.Role, user.Role.Name)
-        };
-
-        var claimsIdentify = new ClaimsIdentity(claims, "Cookies");
-        var claimsPrincipal = new ClaimsPrincipal(claimsIdentify);
-
-        await HttpContext.SignInAsync(claimsPrincipal);
         return Redirect("/");
     }
 }

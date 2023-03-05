@@ -5,15 +5,16 @@
 }
 
 <div>
-    <p class="text-danger">@Model.ErrorMessage</p>
     <form method="POST" asp-antiforgery="true">
         <div class="mb-3">
-            <label asp-for="UserForm.Email" class="form-label">Email address</label>
-            <input type="email" class="form-control" required asp-for="UserForm.Email" />
+            <label asp-for="ViewModel.Email" class="form-label">Email address</label>
+            <input asp-for="ViewModel.Email" type="email" class="form-control" autocomplete="email" />
+            <span asp-validation-for="ViewModel.Email" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="UserForm.Password" class="form-label">Password</label>
-            <input type="password" class="form-control" required asp-for="UserForm.Password" />
+            <label asp-for="ViewModel.Password" class="form-label">Password</label>
+            <input asp-for="ViewModel.Password" type="password" class="form-control" autocomplete="current-password" />
+            <span asp-validation-for="ViewModel.Password" class="text-danger"></span>
         </div>
         <input type="submit" class="btn btn-primary" value="Log in" />
     </form>

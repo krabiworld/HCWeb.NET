@@ -1,0 +1,32 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register page";
+}
+
+<div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form method="POST" asp-antiforgery="true">
+        <div class="mb-3">
+            <label asp-for="ViewModel.UserName" class="form-label">Username</label>
+            <input asp-for="ViewModel.UserName" type="text" class="form-control" autocomplete="username" />
+            <span asp-validation-for="ViewModel.UserName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ViewModel.Email" class="form-label">Email address</label>
+            <input asp-for="ViewModel.Email" type="email" class="form-control" autocomplete="email" />
+            <span asp-validation-for="ViewModel.Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ViewModel.Password" class="form-label">Password</label>
+            <input asp-for="ViewModel.Password" type="password" class="form-control" autocomplete="off" />
+            <span asp-validation-for="ViewModel.Password" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ViewModel.ConfirmPassword" class="form-label">Confirm password</label>
+            <input asp-for="ViewModel.ConfirmPassword" type="password" class="form-control" autocomplete="off" />
+            <span asp-validation-for="ViewModel.ConfirmPassword" class="text-danger"></span>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Register" />
+    </form>
+</div>

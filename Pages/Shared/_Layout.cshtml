@@ -1,4 +1,19 @@
 ﻿@using HCWeb.NET.Extensions
+@using HCWeb.NET.Models;
+@using Microsoft.AspNetCore.Identity;
+
+@inject UserManager<User> userManager;
+
+@{
+    User? user = null;
+
+    if (User.IsAuthenticated())
+    {
+        var tempUser = await userManager.GetUserAsync(User);
+        if (tempUser != null) user = tempUser;
+    }
+}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -34,14 +49,14 @@
                         <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             @if (User.IsAuthenticated())
                             {
-                                <span>@User.Identity?.Name</span>
+                                <span>@user?.UserName</span>
                             }
                             else
                             {
                                 <span>Menu</span>
                             }
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-lg-end">
+                        <ul class="dropdown-menu dropdown-menu-sm-end">
                             @if (User.IsAuthenticated())
                             {
                                 <li>
@@ -55,6 +70,9 @@
                             {
                                 <li>
                                     <a class="dropdown-item" asp-page="/Login">Login</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-page="/Register">Register</a>
                                 </li>
                             }
                         </ul>

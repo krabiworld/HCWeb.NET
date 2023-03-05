@@ -5,19 +5,19 @@
 }
 
 <div>
-    <p class="text-danger">@Model.ErrorMessage</p>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <form method="POST" enctype="multipart/form-data" asp-antiforgery="true">
         <div class="mb-3">
-            <label asp-for="PostForm.Content" class="form-label">Preview (optional)</label>
-            <input type="file" class="form-control" asp-for="PostForm.Preview" />
+            <label asp-for="ViewModel.Content" class="form-label">Preview (optional)</label>
+            <input type="file" class="form-control" asp-for="ViewModel.Preview" />
         </div>
         <div class="mb-3">
-            <label asp-for="PostForm.Title" class="form-label">Title</label>
-            <input type="text" class="form-control" required asp-for="PostForm.Title" />
+            <label asp-for="ViewModel.Title" class="form-label">Title</label>
+            <input type="text" class="form-control" required asp-for="ViewModel.Title" />
         </div>
         <div class="mb-3">
-            <label asp-for="PostForm.Content" class="form-label">Content</label>
-            <textarea class="form-control" required asp-for="PostForm.Content"></textarea>
+            <label asp-for="ViewModel.Content" class="form-label">Content</label>
+            <textarea class="form-control" required asp-for="ViewModel.Content"></textarea>
         </div>
         <input type="submit" class="btn btn-primary" value="Create" />
     </form>
