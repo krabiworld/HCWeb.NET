@@ -8,3 +8,4 @@ riderModule.iml
 appsettings.Development.json
 appsettings.Production.json
 wwwroot/previews/*
+appsettings.json

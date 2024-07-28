@@ -1,12 +1,11 @@
 ﻿using HCWeb.NET.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HCWeb.NET;
 
-public class ApplicationContext : IdentityDbContext<User>
+public class ApplicationContext(DbContextOptions<ApplicationContext> options) : DbContext(options)
 {
-    public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
+    public DbSet<User> Users { get; set; } = null!;
     
     public DbSet<Post> Posts { get; set; } = null!;
 
