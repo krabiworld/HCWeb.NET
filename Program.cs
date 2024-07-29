@@ -1,12 +1,12 @@
 using System.Text;
 using System.Text.Json;
-using HCWeb.NET;
+using HCWeb.NET.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
@@ -18,13 +18,9 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
-// Add services to the container.
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<ApplicationContext>(options =>
-{
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+builder.Services.AddDbContext<ApplicationContext>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using HCWeb.NET.Database;
 using HCWeb.NET.Dtos;
 using HCWeb.NET.Models;
 using Microsoft.AspNetCore.Identity;
