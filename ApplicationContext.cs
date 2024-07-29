@@ -15,5 +15,7 @@ public class ApplicationContext(DbContextOptions<ApplicationContext> options) : 
 
         builder.Entity<Post>().Property(p => p.UpdatedAt).HasDefaultValueSql("now()");
         builder.Entity<Post>().Property(p => p.CreatedAt).HasDefaultValueSql("now()");
+
+        builder.Entity<User>().HasIndex(u => u.Email).IsUnique();
     }
 }

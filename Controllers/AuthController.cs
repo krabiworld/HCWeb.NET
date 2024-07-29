@@ -31,16 +31,16 @@ public class AuthController(ApplicationContext context, IConfiguration configura
             return Unauthorized("Password don't match");
         }
 
-        var token = GenerateAccessToken(user.Email, user.Role);
+        var token = GenerateAccessToken(user.Id, user.Role);
 
         return Ok(new { AccessToken = new JwtSecurityTokenHandler().WriteToken(token) });
     }
 
-    private JwtSecurityToken GenerateAccessToken(string email, string role)
+    private JwtSecurityToken GenerateAccessToken(string id, string role)
     {
         var claims = new List<Claim>
         {
-            new(ClaimTypes.Email, email),
+            new(ClaimTypes.NameIdentifier, id),
             new(ClaimTypes.Role, role)
         };
 
