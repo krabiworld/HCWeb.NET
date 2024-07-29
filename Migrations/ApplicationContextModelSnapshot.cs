@@ -32,14 +32,11 @@ namespace HCWeb.NET.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("CreatedAt")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now()");
 
                     b.Property<DateTimeOffset?>("DeletedAt")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Preview")
@@ -50,8 +47,6 @@ namespace HCWeb.NET.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")

@@ -36,8 +36,9 @@ namespace HCWeb.NET.Migrations
                     Content = table.Column<string>(type: "text", nullable: false),
                     Preview = table.Column<string>(type: "text", nullable: true),
                     UserId = table.Column<string>(type: "text", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", rowVersion: true, nullable: false, defaultValueSql: "now()"),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", rowVersion: true, nullable: false, defaultValueSql: "now()")
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    DeletedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -54,6 +55,27 @@ namespace HCWeb.NET.Migrations
                 name: "IX_Posts_UserId",
                 table: "Posts",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.Sql(@"
+CREATE FUNCTION ""Posts_Update_Timestamp_Function""() RETURNS TRIGGER LANGUAGE PLPGSQL AS $$
+BEGIN
+    NEW.""UpdatedAt"" := now();
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER ""UpdateTimestamp""
+    BEFORE INSERT OR UPDATE
+    ON ""Posts""
+    FOR EACH ROW
+    EXECUTE FUNCTION ""Posts_Update_Timestamp_Function""();
+");
         }
 
         /// <inheritdoc />
@@ -64,6 +86,9 @@ namespace HCWeb.NET.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.Sql("DROP FUNCTION Posts_Update_Timestamp_Function");
+            migrationBuilder.Sql("DROP TRIGGER UpdateTimestamp;");
         }
     }
 }

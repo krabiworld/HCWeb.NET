@@ -13,7 +13,7 @@ public class ApplicationContext(DbContextOptions<ApplicationContext> options, IC
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
         builder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
-        builder.AddInterceptors(new UpdatedAtInterceptor(), new SoftDeleteInterceptor());
+        builder.AddInterceptors(new SoftDeleteInterceptor());
     }
 
     protected override void OnModelCreating(ModelBuilder builder)

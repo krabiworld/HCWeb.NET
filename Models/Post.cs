@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using HCWeb.NET.Database.Interfaces;
+﻿using HCWeb.NET.Database.Interfaces;
 
 namespace HCWeb.NET.Models;
 
-public class Post : IUpdatedAt, ISoftDelete
+public class Post : ISoftDelete
 {
     public string Id { get; set; } = null!;
 
@@ -17,12 +16,9 @@ public class Post : IUpdatedAt, ISoftDelete
 
     public User User { get; set; } = null!;
 
-    [Timestamp]
     public DateTimeOffset CreatedAt { get; set; }
 
-    [Timestamp]
     public DateTimeOffset? UpdatedAt { get; set; }
 
-    [Timestamp]
     public DateTimeOffset? DeletedAt { get; set; }
 }
