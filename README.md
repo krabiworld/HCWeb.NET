@@ -4,7 +4,7 @@
 
 1. Clone repository:
     ```sh
-    git clone https://github.com/HeadcrabJ/HCWeb.NET.git
+    git clone https://github.com/krabiworld/HCWeb.NET.git
     cd HCWeb.NET
     ```
 2. Rename `appsettings.Example.json` to `appsettings.json` and fill it with the required data
