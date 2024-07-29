@@ -24,25 +24,4 @@
       <Folder Include="Migrations\" />
     </ItemGroup>
 
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Pages\Account.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\Create.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\Error.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\Login.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\Logout.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\Post.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\Privacy.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\Register.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\Shared\_Layout.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\_ViewImports.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\_ViewStart.cshtml" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\site.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\favicon.ico" />
-      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\bootstrap.bundle.min.js" />
-      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\bootstrap.bundle.min.js.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\bootstrap.min.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\bootstrap.min.css.map" />
-    </ItemGroup>
-
 </Project>

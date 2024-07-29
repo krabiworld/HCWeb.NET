@@ -1,11 +1,10 @@
+# IDE
+.idea/
 .vs/
+
+# Config
+appsettings.json
+
 bin/
 obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
-.idea
-appsettings.Development.json
-appsettings.Production.json
-wwwroot/previews/*
-appsettings.json
+*.user
