@@ -22,7 +22,7 @@ public class PostsController(ApplicationContext context) : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> Fetch(string id)
     {
-        var post = await context.Posts.Where(p => p.Id == id).Select(p => new PostDto(p)).SingleOrDefaultAsync();
+        var post = await context.Posts.Where(p => p.Id.ToString() == id).Select(p => new PostDto(p)).SingleOrDefaultAsync();
         if (post is null)
         {
             return NotFound("Post not found");
@@ -39,11 +39,10 @@ public class PostsController(ApplicationContext context) : ControllerBase
 
         var post = new Post
         {
-            Id = Guid.NewGuid().ToString(),
             Title = dto.Title,
             Content = dto.Content,
             Preview = dto.Preview,
-            UserId = userId,
+            UserId = new Guid(userId),
         };
 
         await context.Posts.AddAsync(post);
@@ -58,7 +57,7 @@ public class PostsController(ApplicationContext context) : ControllerBase
     {
         var userId = User.Id();
 
-        var post = await context.Posts.SingleOrDefaultAsync(p => p.Id == id && p.UserId == userId);
+        var post = await context.Posts.SingleOrDefaultAsync(p => p.Id.ToString() == id && p.UserId.ToString() == userId);
         if (post is null)
         {
             return NotFound("Post not found");
@@ -90,7 +89,7 @@ public class PostsController(ApplicationContext context) : ControllerBase
     {
         var userId = User.Id();
 
-        var post = await context.Posts.SingleOrDefaultAsync(p => p.Id == id && p.UserId == userId);
+        var post = await context.Posts.SingleOrDefaultAsync(p => p.Id.ToString() == id && p.UserId.ToString() == userId);
         if (post is null)
         {
             return NotFound("Post not found");

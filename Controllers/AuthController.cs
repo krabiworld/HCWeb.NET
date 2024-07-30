@@ -15,6 +15,26 @@ namespace HCWeb.NET.Controllers;
 [ApiController]
 public class AuthController(ApplicationContext context, IConfiguration configuration) : ControllerBase
 {
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterDto dto)
+    {
+        var user = new User
+        {
+            Username = dto.Username,
+            Email = dto.Email,
+        };
+
+        var passwordHasher = new PasswordHasher<User>();
+        user.Password = passwordHasher.HashPassword(user, dto.Password);
+
+        await context.Users.AddAsync(user);
+        await context.SaveChangesAsync();
+
+        // Send email
+        
+        return Ok("Check email to confirm registration");
+    }
+    
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
@@ -37,11 +57,11 @@ public class AuthController(ApplicationContext context, IConfiguration configura
         return Ok(new { AccessToken = new JwtSecurityTokenHandler().WriteToken(token) });
     }
 
-    private JwtSecurityToken GenerateAccessToken(string id, string role)
+    private JwtSecurityToken GenerateAccessToken(Guid id, string role)
     {
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, id),
+            new(ClaimTypes.NameIdentifier, id.ToString()),
             new(ClaimTypes.Role, role)
         };
 

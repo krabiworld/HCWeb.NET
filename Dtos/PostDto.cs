@@ -5,7 +5,7 @@ namespace HCWeb.NET.Dtos;
 
 public class PostDto(Post post)
 {
-    public string Id { get; set; } = post.Id;
+    public string Id { get; set; } = post.Id.ToString();
 
     public string Title { get; set; } = post.Title;
 
@@ -13,7 +13,7 @@ public class PostDto(Post post)
 
     public string? Preview { get; set; } = post.Preview;
 
-    public string UserId { get; set; } = post.UserId;
+    public string UserId { get; set; } = post.UserId.ToString();
 
     [Timestamp]
     public DateTimeOffset CreatedAt { get; set; } = post.CreatedAt;
